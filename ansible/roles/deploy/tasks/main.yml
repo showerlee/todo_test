@@ -1,0 +1,43 @@
+- name: Update yum dependency
+  shell: 'yum update -y warn=False'
+
+- name: Disable system firewall
+  service: name=firewalld state=stopped
+
+- name: Disable SELINX
+  selinux: state=disabled
+
+- name: Setup epel yum source for nginx and tomcat
+  yum: name=epel-release state=latest
+
+- name: Ensure tomcat is at the latest version
+  yum: name=tomcat state=latest
+
+- name: Get ansible version
+  debug: msg="{{ lookup('pipe', 'ansible-playbook --version') }}"
+
+- name: Get current shell
+  debug: msg="{{ lookup('env', 'SHELL') }}"
+
+- name: Backup current WAR home
+  shell: 
+    'mv {{deploy_to}} {{backup_to}}'
+
+- name: "Copy source {{war_path}}/{{project}}.war to destination {{deploy_to}}/{{project}}.war" 
+  copy:
+    src: "{{war_path}}/{{project}}.war"
+    dest: "{{deploy_to}}/{{project}}.war"
+  when: project == "Java-war-dev"
+
+- name: Restart tomcat service
+  service: name=tomcat state=restarted
+
+- name: Run tomcat health check locally
+  shell: "sh roles/deploy/files/health_check.sh {{ site_url }} {{ port }}"
+  delegate_to: localhost
+  register: health_status
+
+- debug: msg="{{ health_status.stdout }}"
+
+
+
