@@ -25,7 +25,7 @@
 
 - name: "Copy source war to destination" 
   copy:
-    src: "roles/files/{{project_name}}-{{version}}.war"
+    src: "roles/deploy/files/{{project_name}}-{{version}}.war"
     dest: "{{deploy_to}}/{{project_name}}.war"
   when: project_name == "todo"
 
