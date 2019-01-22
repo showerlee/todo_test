@@ -23,17 +23,17 @@
   shell: 
     'mv {{deploy_to}} {{backup_to}}'
 
-- name: "Copy source {{war_path}}/{{project}}.war to destination {{deploy_to}}/{{project}}.war" 
+- name: "Copy source war to destination" 
   copy:
-    src: "{{war_path}}/{{project}}.war"
-    dest: "{{deploy_to}}/{{project}}.war"
-  when: project == "Java-war-dev"
+    src: "roles/files/{{project_name}}-{{version}}.war"
+    dest: "{{deploy_to}}/{{project_name}}.war"
+  when: project_name == "todo"
 
 - name: Restart tomcat service
   service: name=tomcat state=restarted
 
 - name: Run tomcat health check locally
-  shell: "sh roles/deploy/files/health_check.sh {{ site_url }} {{ port }}"
+  shell: "sh roles/deploy/files/health_check.sh {{ site_url }}/{{project_name}} {{ port }}"
   delegate_to: localhost
   register: health_status
 

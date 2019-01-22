@@ -1,4 +1,4 @@
-- hosts: "{{project}}"
+- hosts: "{{project_name}}"
   gather_facts: true
   vars:
     backup_to: "{{deploy_to}}_{{ansible_date_time.epoch}}"

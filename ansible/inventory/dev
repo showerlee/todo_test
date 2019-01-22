@@ -1,5 +1,5 @@
-[todo_test]
+[todo]
 172.16.1.102
 
-[172.16.1.102:vars]
+[todo:vars]
 deploy_to=/var/lib/tomcat/webapps
