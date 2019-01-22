@@ -38,7 +38,7 @@
   service: name=tomcat state=restarted
 
 - name: Run tomcat health check locally
-  shell: "sh roles/deploy/files/health_check.sh {{ site_url }}/{{project_name}} {{ port }}"
+  shell: "sh roles/deploy/files/health_check.sh {{ site_url }} {{ port }} {{project_name}}"
   delegate_to: localhost
   register: health_status
 
