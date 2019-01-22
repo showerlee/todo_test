@@ -37,6 +37,14 @@
 - name: Restart tomcat service
   service: name=tomcat state=restarted
 
+- name: change tomcat home dir owner
+  file:
+    path: "{{tomcat_home}}"
+    state: directory
+    owner: tomcat
+    group: tomcat
+    recurse: yes
+
 - name: Run tomcat health check locally
   shell: "sh roles/deploy/files/health_check.sh {{ site_url }} {{ port }} {{project_name}}"
   delegate_to: localhost
