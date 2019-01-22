@@ -23,6 +23,11 @@
   shell: 
     'mv {{deploy_to}} {{backup_to}}'
 
+- name: Create WAR home
+  file:
+    path: "{{deploy_to}}"
+    state: directory
+
 - name: "Copy source war to destination" 
   copy:
     src: "roles/deploy/files/{{project_name}}-{{version}}.war"
