@@ -38,7 +38,8 @@
 - name: Start tomcat service
   service: name=tomcat state=started
 
-- pause: seconds=5
+- name: pause 5 seconds
+  pause: seconds=5
 
 - name: Run tomcat health check locally
   shell: "sh roles/deploy/files/health_check.sh {{ site_url }} {{ port }} {{project_name}}"
