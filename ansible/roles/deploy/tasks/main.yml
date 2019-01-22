@@ -20,7 +20,7 @@
   debug: msg="{{ lookup('env', 'SHELL') }}"
 
 - name: Stop tomcat service
-  service: name=tomcat state=stop 
+  service: name=tomcat state=stopped 
 
 - name: Backup current WAR home
   shell: 
