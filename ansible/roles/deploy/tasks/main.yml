@@ -24,12 +24,10 @@
 
 - name: Backup current WAR home
   shell: 
-    'mv {{deploy_to}} {{backup_to}}'
+    'cp -a {{deploy_to}} {{backup_to}}'
 
-- name: Create WAR home
-  file:
-    path: "{{deploy_to}}"
-    state: directory
+- name: remove old war file
+  shell: rm -rf {{deploy_to}}/*.war
 
 - name: "Copy source war to destination" 
   copy:
@@ -39,14 +37,6 @@
 
 - name: Start tomcat service
   service: name=tomcat state=started
-
-- name: change tomcat home dir owner
-  file:
-    path: "{{tomcat_home}}"
-    state: directory
-    owner: tomcat
-    group: tomcat
-    recurse: yes
 
 - name: Run tomcat health check locally
   shell: "sh roles/deploy/files/health_check.sh {{ site_url }} {{ port }} {{project_name}}"
