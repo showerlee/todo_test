@@ -27,7 +27,8 @@
     'cp -a {{deploy_to}} {{backup_to}}'
 
 - name: remove old war file
-  shell: rm -rf {{deploy_to}}/*.war
+  shell: 'rm -rf {{deploy_to}}/*.war warn=False'
+
 
 - name: "Copy source war to destination" 
   copy:
